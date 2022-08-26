@@ -36,7 +36,7 @@
       <td th:text="*{match.matchDate}" />
       <td >
         <th:block th:each="players : ${match.team1}">
-        <p><a th:href="@{/player(profile=${players.email})}"><span th:text="*{players.username}"/></a> Puan= <span th:text="*{players.statistic}"/> | Mevki= <span th:text="*{players.mevki}"/> </p>
+        <p><a th:href="@{/player(profile=${players.email})}"><span th:text="*{players.username}"/></a> Puan= <span th:text="*{players.statistic}"/> | Mevki= <span th:text="*{players.mevki}"/>  </p>
         </th:block>
       </td>
       <td>

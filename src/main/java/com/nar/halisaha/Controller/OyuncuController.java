@@ -5,6 +5,7 @@ import com.nar.halisaha.Model.Oyuncu;
 import com.nar.halisaha.Model.VerificationToken;
 import com.nar.halisaha.Servis.MatchService;
 import com.nar.halisaha.Servis.OyuncuServis;
+import com.nar.halisaha.Servis.PointsService;
 import com.nar.halisaha.Servis.VerificationTokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -22,6 +23,7 @@ import java.util.logging.Logger;
 public class OyuncuController {
 
     private final OyuncuServis service;
+    private final PointsService pointsService;
     private final VerificationTokenService tokenService;
 
     private static Logger logger=Logger.getLogger(OyuncuController.class.getName());
@@ -67,10 +69,10 @@ public class OyuncuController {
      */
 
     @PostMapping("/save")
-    public String pointSave(@ModelAttribute("oyuncu") Oyuncu oyuncu){
-        logger.info(oyuncu.getId()+" --------- "+oyuncu.getStatistic());
+    public String pointSave(@ModelAttribute("oyuncu") Oyuncu oyuncu,Principal principal){
+        pointsService.save(oyuncu,principal.getName());
         Oyuncu oyuncu1= service.getById(oyuncu.getId());
-        oyuncu1.setStatistic((oyuncu.getStatistic()*0.2)+oyuncu1.getStatistic());
+        oyuncu1.setStatistic(pointsService.getStatistic(oyuncu1));
         service.save(oyuncu1);
         return "redirect:/getir";
     }

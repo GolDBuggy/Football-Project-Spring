@@ -26,4 +26,7 @@ public class Points {
 
     @Column(name = "player_point")
     private int playerPoint;
+
+    @Column(name = "voter_mail")
+    private String voterMail;
 }

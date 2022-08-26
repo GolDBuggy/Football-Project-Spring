@@ -19,10 +19,11 @@ public class PointsService {
         return repo.findAll();
     }
 
-    public void save(Oyuncu oyuncu){
+    public void save(Oyuncu oyuncu,String email){
         Points points=new Points();
         points.setPlayerId(oyuncu);
         points.setPlayerPoint((int) Math.floor(oyuncu.getStatistic()));
+        points.setVoterMail(email);
         repo.save(points);
     }
 
@@ -32,7 +33,7 @@ public class PointsService {
         return total;
     }
 
-    public int sumOfList(Oyuncu oyuncu){
+    private int sumOfList(Oyuncu oyuncu){
         int sum=repo.totalPoint(oyuncu).stream().mapToInt(Integer::intValue).sum();
 
         return sum;
