@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Players</title>
+    <style>
+        .tableDiv{
+            padding: 20px;
+        }
+        th, td {
+            border: 1px solid;
+        }
+
+    </style>
+</head>
+<body>
+<div>
+    <h1>Maçlar</h1>
+    <br>
+    <br>
+    <table class="tableDiv">
+        <thead>
+        <tr>
+            <th>İsmi</th>
+            <th>Rolü</th>
+            <th>İstatistik </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="player : ${players}">
+            <td th:text="*{player.username}" />
+            <td th:text="*{player.roles}" />
+            <td th:text="*{player.statistic}"
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

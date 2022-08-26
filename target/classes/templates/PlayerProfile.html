@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/root_layout"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Oyuncu Profil</title>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <style>
+        th, td {
+            border: 1px solid;
+        }
+    </style>
+</head>
+<body>
+<h2>Oyuncu profil puanlama</h2>
+<div>
+    <table>
+        <thead>
+        <tr>
+            <th>Oyuncu İsim</th>
+            <th>Oyuncu İstatistik</th>
+            <td>Puanla</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="oyuncu : ${oyuncular}">
+            <td th:text="*{oyuncu.username}"/>
+            <td th:text="*{oyuncu.statistic}"/>
+            <td >
+                <form class="store-form"  th:action="@{/save}" th:object="${oyuncu}" method="POST">
+                    <input type="hidden" th:value="${oyuncu.id}" th:name="id" />
+
+                    <input type="text" th:value="${oyuncu.statistic}" th:name="statistic" />
+                    <button class="submit-button" type="submit" >Gönder</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+
+</div>
+
+</body>
+</html>
+
+
+<script>
+/*
+
+    var name;
+    var id;
+   // var idler=document.getElementById('id').value;
+    //console.log(idler);
+    $(".puanla").click(function (e) {
+
+        $.ajax({
+            type: "POST",
+            url: "/save",
+            data: {
+                yazi:$(".sinif").data('id').text(),
+                i: $(this).data('player')
+            }
+        });
+
+        return true;
+    })
+*/
+
+
+</script>
