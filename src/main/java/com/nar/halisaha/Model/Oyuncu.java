@@ -50,6 +50,9 @@ public class Oyuncu {
     @JoinTable(name = "events",joinColumns = @JoinColumn(name = "player_id"),inverseJoinColumns = @JoinColumn(name = "match_id"))
     private List<Match> matches;
 
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "playerId")
+    private List<Points> points;
+
 
 
 }

@@ -38,6 +38,7 @@ public class MatchService {
         MatchDto matchDto=new MatchDto();
         Match match=getById(1);
         match.setPlayers(matches(servis.getAll()));
+        repo.save(match);
         matchDto.setId(match.getId());
         matchDto.setMatchName(match.getMatchName());
         matchDto.setMatchDate(match.getMatchDate());
@@ -56,15 +57,12 @@ public class MatchService {
         for (int i = 1; i <players.size() ; i+=2) {
                 if(isAdded) {
                     team1.add(players.get(i));
-                    logger.info(players.get(i).getStatistic()+"");
                     if (i + 1 < players.size()) {
-                        logger.info(players.get(i+1).getStatistic()+"");
                         team1.add(players.get(i + 1));
                     }
                 }
                else{
                     team2.add(players.get(i));
-                    logger.info(players.get(i).getStatistic()+"");
                     if(i+1< players.size()) {
                         team2.add(players.get(i + 1));
                     }
