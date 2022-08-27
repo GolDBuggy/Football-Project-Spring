@@ -25,7 +25,7 @@
 <body>
 <h2>Oyuncu profil puanlama</h2>
 <div class="formDiv">
-    <table>
+    <table >
         <thead>
         <tr>
             <th>Oyuncu İsim</th>
@@ -33,14 +33,14 @@
             <td>Puanla</td>
         </tr>
         </thead>
-        <tbody>
+        <tbody >
         <tr th:each="oyuncu : ${oyuncular}">
             <td th:text="*{oyuncu.username}"/>
             <td th:text="*{oyuncu.statistic}"/>
             <td >
                 <form class="store-form"  th:action="@{/save}" th:object="${oyuncu}" method="POST">
                     <input type="hidden" th:value="${oyuncu.id}" th:name="id" />
-
+                    <input type="hidden" th:value="${matchId}" th:name="mevki" />
                     <input type="text" th:value="${oyuncu.statistic}" th:name="statistic" />
                     <button class="submit-button" type="submit" >Gönder</button>
                 </form>

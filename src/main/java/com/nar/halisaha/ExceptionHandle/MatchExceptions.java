@@ -19,4 +19,12 @@ public class MatchExceptions {
         logger.info(errorResponse+"");
         return new ResponseEntity<>(errorResponse,HttpStatus.BAD_REQUEST);
     }
+
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> runtimeExc(RuntimeException e){
+        ErrorResponse errorResponse=new ErrorResponse(HttpStatus.NOT_FOUND.value(),e.getMessage(), LocalDateTime.now());
+        logger.info(errorResponse+"");
+        return new ResponseEntity<>(errorResponse,HttpStatus.NOT_FOUND);
+    }
 }

@@ -12,4 +12,6 @@ public interface PointsRepo extends JpaRepository<Points,Long> {
 
     @Query("select u.playerPoint from Points u where u.playerId=:param")
     List<Integer> totalPoint(@Param("param")Oyuncu oyuncu);
+
+    boolean existsPointsByPlayerIdAndVoterMailAndAndMatchId(Oyuncu id,String mail,int matchId);
 }

@@ -1,5 +1,6 @@
 package com.nar.halisaha.Controller;
 
+import com.nar.halisaha.DTO.OyuncuDto;
 import com.nar.halisaha.DTO.RegisterDTO;
 import com.nar.halisaha.Model.Oyuncu;
 import com.nar.halisaha.Model.VerificationToken;
@@ -52,9 +53,10 @@ public class OyuncuController {
     }
 
     @GetMapping("/player")
-    public String getPlayerById(Model model, Principal principal){
+    public String getPlayerById(@RequestParam("profile") String id,Model model, Principal principal){
         model.addAttribute("oyuncular",service.hariciGetir(principal.getName()));
-        model.addAttribute("oyuncu",new Oyuncu());
+        model.addAttribute("oyuncu",new OyuncuDto());
+        model.addAttribute("matchId",id);
         return "PlayerProfile";
     }
 
@@ -69,11 +71,11 @@ public class OyuncuController {
      */
 
     @PostMapping("/save")
-    public String pointSave(@ModelAttribute("oyuncu") Oyuncu oyuncu,Principal principal){
-        pointsService.save(oyuncu,principal.getName());
-        Oyuncu oyuncu1= service.getById(oyuncu.getId());
-        oyuncu1.setStatistic(pointsService.getStatistic(oyuncu1));
-        service.save(oyuncu1);
+    public String pointSave(@ModelAttribute("oyuncu") OyuncuDto oyuncuDto,Principal principal){
+        pointsService.save(oyuncuDto,principal.getName());
+        Oyuncu oyuncu=service.getById(oyuncuDto.getId());
+        oyuncu.setStatistic(pointsService.getStatistic(oyuncu));
+        service.save(oyuncu);
         return "redirect:/getir";
     }
 

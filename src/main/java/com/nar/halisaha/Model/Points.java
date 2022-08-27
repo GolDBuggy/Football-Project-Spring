@@ -29,4 +29,7 @@ public class Points {
 
     @Column(name = "voter_mail")
     private String voterMail;
+
+    @Column(name = "match_id")
+    private int matchId;
 }
