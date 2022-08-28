@@ -1,7 +1,6 @@
 package com.nar.halisaha.Servis;
 
 import com.nar.halisaha.DTO.MatchDto;
-import com.nar.halisaha.ExceptionHandle.TeamException;
 import com.nar.halisaha.Model.Match;
 import com.nar.halisaha.Model.Oyuncu;
 import com.nar.halisaha.Repo.MatchRepo;
@@ -9,7 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -44,33 +45,82 @@ public class MatchService {
     }
 
 
-    public List<Oyuncu> matches(List<Oyuncu> players){
-        Collections.sort(players,(o1,o2) -> Double.compare(o2.getStatistic(),o1.getStatistic()));
+    private List<Oyuncu> matches(List<Oyuncu> players){
+        players=createTeam(players);
+        return players;
+    }
+
+
+    private List<Oyuncu> createTeam(List<Oyuncu> players){
+        boolean key=true;
+        while (key){
+            Collections.shuffle(players);
+           if(controlStatics(players) && controlPlayerPosition(players)){
+               key=false;
+            }
+
+        }
+
+        return players;
+    }
+
+
+
+    private boolean controlPlayerPosition(List<Oyuncu> players){
+         AtomicBoolean key = new AtomicBoolean(false);
+        AtomicBoolean key1 = new AtomicBoolean(false);
+
+        players.subList(0,5).stream().forEach(p -> key.set(p.getMevki().equals("Kale")));
+        players.subList(5,10).stream().forEach(t -> key1.set(t.getMevki().equals("Kale")));
+        logger.info(key.get()+"");
+        return key.get()&& key1.get();
+    }
+
+    private boolean controlStatics(List<Oyuncu> player){
+        double team1Avg= player.subList(0,5).stream().mapToDouble(Oyuncu::getStatistic).sum();
+        double team2Avg=player.subList(5,10).stream().mapToDouble(Oyuncu::getStatistic).sum();
+
+        if(Math.abs(team1Avg-team2Avg) > 1)
+            return false;
+
+    return true;
+    }
+
+
+    /*
+     Collections.sort(players,(o1,o2) -> Double.compare(o2.getStatistic(),o1.getStatistic()));
         List<Oyuncu> team1=new ArrayList<>();
         List<Oyuncu> team2=new ArrayList<>();
-        team1.add(players.get(0));
-        Boolean isAdded = false;
-        for (int i = 1; i <players.size() ; i+=2) {
-                if(isAdded) {
-                    team1.add(players.get(i));
-                    if (i + 1 < players.size()) {
-                        team1.add(players.get(i + 1));
-                    }
-                }
-               else{
-                    team2.add(players.get(i));
-                    if(i+1< players.size()) {
-                        team2.add(players.get(i + 1));
-                    }
-               }
-                isAdded = !isAdded;
+        List<Oyuncu> oyuncus=new ArrayList<>();
+        players.stream().forEach(i ->{
+            logger.info(i.getMevki()+"");
+            if (i.getMevki().matches("Kale")){
+                oyuncus.add(i);
+            }
 
+        });
+        team1.add(players.get(0));
+        team2.add(oyuncus.get(0));
+        team1.add(oyuncus.get(1));
+        Boolean isAdded = false;
+        for (int i = 3; i <players.size() ; i+=2) {
+            if(isAdded) {
+                team1.add(players.get(i));
+                if (i + 1 < players.size()) {
+                    team1.add(players.get(i + 1));
+                }
+            }
+            else{
+                team2.add(players.get(i));
+                if(i+1< players.size()) {
+                    team2.add(players.get(i + 1));
+                }
+            }
+            isAdded = !isAdded;
         }
         List<Oyuncu> oyuncuList=new ArrayList<>();
         oyuncuList.addAll(team1);
         oyuncuList.addAll(team2);
-        return oyuncuList;
-    }
-
+     */
 
 }
