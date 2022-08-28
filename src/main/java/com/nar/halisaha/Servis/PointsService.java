@@ -38,11 +38,11 @@ public class PointsService {
     }
 
     private Points createPoints(OyuncuDto oyuncuDto, String email){
-        Points points=new Points();
-        points.setPlayerId(oyuncuServis.getById(oyuncuDto.getId()));
-        points.setPlayerPoint((int) Math.floor(oyuncuDto.getStatistic()));
-        points.setVoterMail(email);
-        points.setMatchId(oyuncuDto.getMatchId());
+        Points points= Points.builder().
+                playerId(oyuncuServis.getById(oyuncuDto.getId())).
+                playerPoint((int) Math.floor(oyuncuDto.getStatistic())).
+                voterMail(email).matchId(oyuncuDto.getMatchId()).build();
+
 
         if (repo.existsPointsByPlayerIdAndVoterMailAndAndMatchId(points.getPlayerId(),points.getVoterMail(),points.getMatchId()))
             throw new RuntimeException("Zaten oy kullanıldı!");

@@ -47,7 +47,7 @@ public class OyuncuController {
         service.saveOyuncu(registerDTO);
         Optional<Oyuncu> player=service.getByEmail(registerDTO.getEmail());
         VerificationToken verificationToken=tokenService.findByOyuncu(player.get());
-        String url="http://10.200.20.88:8080/activation?token="+verificationToken.getToken();
+        String url= registerDTO.getEmail()+" adresinize aktivasyon maili gönderildi!";
         model.addAttribute("link",url);
         return "verification";
     }

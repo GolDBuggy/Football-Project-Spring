@@ -47,9 +47,6 @@ public class OyuncuServis {
         return repo.hariciGetir(email);
     }
 
-
-
-
     public void saveOyuncu(RegisterDTO employeeDto) {
         ModelMapper modelMapper = new ModelMapper();
         checkPlayer(employeeDto);

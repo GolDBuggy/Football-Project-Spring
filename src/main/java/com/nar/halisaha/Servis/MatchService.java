@@ -6,7 +6,6 @@ import com.nar.halisaha.Model.Match;
 import com.nar.halisaha.Model.Oyuncu;
 import com.nar.halisaha.Repo.MatchRepo;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -35,15 +34,12 @@ public class MatchService {
 
 
     public MatchDto matchPlayer(){
-        MatchDto matchDto=new MatchDto();
         Match match=getById(1);
         match.setPlayers(matches(servis.getAll()));
         repo.save(match);
-        matchDto.setId(match.getId());
-        matchDto.setMatchName(match.getMatchName());
-        matchDto.setMatchDate(match.getMatchDate());
-        matchDto.setTeam1(match.getPlayers().subList(0,5));
-        matchDto.setTeam2(match.getPlayers().subList(5,10));
+        MatchDto matchDto=MatchDto.builder().matchDate(match.getMatchDate()).
+                matchName(match.getMatchName()).id(match.getId()).team1(match.getPlayers().subList(0,5))
+                .team2(match.getPlayers().subList(5,10)).build();
         return matchDto;
     }
 
