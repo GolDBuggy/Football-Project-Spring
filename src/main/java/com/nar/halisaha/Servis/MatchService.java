@@ -34,13 +34,15 @@ public class MatchService {
     }
 
 
-    public MatchDto matchPlayer(){
-        Match match=getById(1);
+
+
+    public MatchDto matchPlayer(long id){
+        Match match=getById(id);
         match.setPlayers(matches(servis.getAll()));
         repo.save(match);
         MatchDto matchDto=MatchDto.builder().matchDate(match.getMatchDate()).
                 matchName(match.getMatchName()).id(match.getId()).team1(match.getPlayers().subList(0,5))
-                .team2(match.getPlayers().subList(5,10)).build();
+                .team2(match.getPlayers().subList(match.getPlayers().size()/2,match.getPlayers().size())).build();
         return matchDto;
     }
 
@@ -58,27 +60,24 @@ public class MatchService {
            if(controlStatics(players) && controlPlayerPosition(players)){
                key=false;
             }
-
         }
-
         return players;
     }
 
 
 
     private boolean controlPlayerPosition(List<Oyuncu> players){
-         AtomicBoolean key = new AtomicBoolean(false);
+        AtomicBoolean key = new AtomicBoolean(false);
         AtomicBoolean key1 = new AtomicBoolean(false);
-
-        players.subList(0,5).stream().forEach(p -> key.set(p.getMevki().equals("Kale")));
-        players.subList(5,10).stream().forEach(t -> key1.set(t.getMevki().equals("Kale")));
-        logger.info(key.get()+"");
+        int teamRange= players.size()/2;
+        players.subList(0,teamRange).stream().forEach(p -> key.set(p.getMevki().equals("Kale")));
+        players.subList(teamRange,players.size()).stream().forEach(t -> key1.set(t.getMevki().equals("Kale")));
         return key.get()&& key1.get();
     }
 
     private boolean controlStatics(List<Oyuncu> player){
-        double team1Avg= player.subList(0,5).stream().mapToDouble(Oyuncu::getStatistic).sum();
-        double team2Avg=player.subList(5,10).stream().mapToDouble(Oyuncu::getStatistic).sum();
+        double team1Avg= player.subList(0,player.size()/2).stream().mapToDouble(Oyuncu::getStatistic).sum();
+        double team2Avg=player.subList(player.size()/2,player.size()).stream().mapToDouble(Oyuncu::getStatistic).sum();
 
         if(Math.abs(team1Avg-team2Avg) > 1)
             return false;

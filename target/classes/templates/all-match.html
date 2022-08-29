@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/root_layout"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Maç Listesi</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        th, td {
+            border: 1px solid;
+        }
+        .formDiv{
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="formDiv">
+    <table >
+        <thead>
+        <tr>
+            <th>Maç İsmi</th>
+            <th>Maç Tarihi</th>
+        </tr>
+        </thead>
+        <tbody >
+        <tr th:each="match : ${allMatch}">
+            <td th:text="*{match.matchName}"/>
+            <td th:text="*{match.matchDate}"/>
+            <td><a th:href="@{/getir(matchId=${match.id})}">Katıl</a></td>
+        </tr>
+        </tbody>
+    </table>
+
+
+
+</div>
+
+</body>
+</html>

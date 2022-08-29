@@ -1,9 +1,7 @@
 package com.nar.halisaha.Model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -15,6 +13,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Match {
 
     @Id
@@ -26,6 +25,7 @@ public class Match {
     private String matchName;
 
     @Column(name = "match_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate matchDate;
 
     @ManyToMany(fetch = FetchType.LAZY)
