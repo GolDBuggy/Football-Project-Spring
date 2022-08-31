@@ -5,6 +5,8 @@ import com.nar.halisaha.Model.Match;
 import com.nar.halisaha.Model.Oyuncu;
 import com.nar.halisaha.Repo.MatchRepo;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -25,6 +27,26 @@ public class MatchService {
         return repo.findAll();
     }
 
+
+    public List<MatchDto> readyMatch(){
+        ModelMapper mapper=new ModelMapper();
+        //TypeMap<Match,MatchDto> typeMap=mapper.getTypeMap(Match.class,MatchDto.class);
+        MatchDto matchDto=new MatchDto();
+        List<MatchDto> matchDtos=new ArrayList<>(repo.findAllByTeamCreated("active").size());
+        repo.findAllByTeamCreated("active").forEach(
+                o -> {
+                    matchDto.setId(o.getId());
+                    matchDto.setMatchName(o.getMatchName());
+                    matchDto.setMatchDate(o.getMatchDate());
+                    matchDto.setTeam1(o.getPlayers().subList(0,o.getPlayers().size()/2));
+                    matchDto.setTeam2(o.getPlayers().subList(o.getPlayers().size()/2,o.getPlayers().size()));
+                    matchDtos.add(matchDto);
+                });
+
+
+        return matchDtos;
+    }
+
     public void save(Match match){
         repo.save(match);
     }
@@ -34,11 +56,16 @@ public class MatchService {
     }
 
 
+    public void addPlayerToMatch(long matchId,String email){
+        Match match=getById(matchId);
+        match.getPlayers().add(servis.getByEmail(email).get());
+        repo.save(match);
+    }
 
 
     public MatchDto matchPlayer(long id){
         Match match=getById(id);
-        match.setPlayers(matches(servis.getAll()));
+        match.setPlayers(matches(match.getPlayers()));
         repo.save(match);
         MatchDto matchDto=MatchDto.builder().matchDate(match.getMatchDate()).
                 matchName(match.getMatchName()).id(match.getId()).team1(match.getPlayers().subList(0,5))

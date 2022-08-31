@@ -28,6 +28,9 @@ public class Match {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate matchDate;
 
+    @Column(name = "created_team")
+    private String teamCreated;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "events",joinColumns = @JoinColumn(name = "match_id"),inverseJoinColumns = @JoinColumn(name = "player_id"))
     private List<Oyuncu> players;

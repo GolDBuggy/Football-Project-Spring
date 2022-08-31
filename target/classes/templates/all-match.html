@@ -19,7 +19,10 @@
     </style>
 </head>
 <body>
-
+<h1>Maçlar</h1>
+<br>
+<a th:href="@{/logout}">Çıkış</a>
+<br>
 <div class="formDiv">
     <table >
         <thead>
@@ -33,6 +36,10 @@
             <td th:text="*{match.matchName}"/>
             <td th:text="*{match.matchDate}"/>
             <td><a th:href="@{/getir(matchId=${match.id})}">Katıl</a></td>
+            <td sec:authorize="hasAuthority('ROLE_ADMIN')" th:text="${#lists.size(match.players)}"></td>
+            <td sec:authorize="hasAuthority('ROLE_ADMIN')">
+                <a th:href="@{/createTeam(matchId=${match.id})}">Takım oluştur</a>
+            </td>
         </tr>
         </tbody>
     </table>

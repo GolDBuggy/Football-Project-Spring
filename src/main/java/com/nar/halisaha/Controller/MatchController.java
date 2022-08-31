@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
 import java.util.logging.Logger;
 
 @Controller
@@ -21,8 +22,21 @@ public class MatchController {
     private static Logger logger=Logger.getLogger(MatchController.class.getName());
 
     @GetMapping("/getir")
-    public String getAll(@RequestParam("matchId") long id,Model model){
+    public String getAll(@RequestParam("matchId") long id, Model model,Principal principal){
+        logger.info(id+" "+principal.getName());
+        service.addPlayerToMatch(id,principal.getName());
+        return "redirect:/all";
+    }
+
+    @GetMapping("/createTeam")
+    public String teams(@RequestParam("matchId") long id,Model model){
         model.addAttribute("matches",service.matchPlayer(id));
+        return "matches";
+    }
+
+    @GetMapping("/matches")
+    public String team1(Model model){
+        model.addAttribute("matches",service.readyMatch());
         return "matches";
     }
 
@@ -48,6 +62,13 @@ public class MatchController {
     }
 
 
+    /*
+      @GetMapping("/getir")
+    public String getAll(@RequestParam("matchId") long id, Model model){
+        model.addAttribute("matches",service.matchPlayer(id));
+        return "matches";
+    }
+     */
 
 
 

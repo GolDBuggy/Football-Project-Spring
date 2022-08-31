@@ -26,12 +26,10 @@
   <br>
   <a th:href="@{/logout}">Oturumu Kapat</a>
   <br>
-  <a th:href="@{/player}" >Puanla </a>
   <br>
   <table class="tableDiv">
     <thead>
     <tr>
-      <td>Katılım</td>
       <th>Maç İsmi</th>
       <th>Maç Tarihi</th>
       <th>Takım 1</th>
@@ -40,7 +38,6 @@
     </thead>
     <tbody>
     <tr th:each="match : ${matches}">
-      <td><a href="#" th:href="@{/player(profile=${match.id})}">Katıl</a></td>
       <td th:text="*{match.matchName}" />
       <td th:text="*{match.matchDate}" />
       <td >
