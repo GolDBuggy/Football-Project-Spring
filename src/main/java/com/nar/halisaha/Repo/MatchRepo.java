@@ -19,5 +19,5 @@ public interface MatchRepo extends JpaRepository<Match,Long> {
     @Query("select u from Match u where u.teamCreated=:param1 ")
     List<Match> readyTeam(@Param("param1") String x);
 
-    List<Match> findAllByTeamCreated(String x);
+    List<Match> getMatchesByTeamCreated(boolean key);
 }

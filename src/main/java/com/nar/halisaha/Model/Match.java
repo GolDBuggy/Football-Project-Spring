@@ -29,7 +29,7 @@ public class Match {
     private LocalDate matchDate;
 
     @Column(name = "created_team")
-    private String teamCreated;
+    private Boolean teamCreated;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "events",joinColumns = @JoinColumn(name = "match_id"),inverseJoinColumns = @JoinColumn(name = "player_id"))

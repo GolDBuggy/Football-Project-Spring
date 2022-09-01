@@ -29,18 +29,12 @@ public class MatchService {
 
 
     public List<MatchDto> readyMatch(){
-        ModelMapper mapper=new ModelMapper();
-        //TypeMap<Match,MatchDto> typeMap=mapper.getTypeMap(Match.class,MatchDto.class);
-        MatchDto matchDto=new MatchDto();
-        List<MatchDto> matchDtos=new ArrayList<>(repo.findAllByTeamCreated("active").size());
-        repo.findAllByTeamCreated("active").forEach(
+        List<MatchDto> matchDtos=new ArrayList<>(repo.getMatchesByTeamCreated(true).size());
+        repo.getMatchesByTeamCreated(true).forEach(
                 o -> {
-                    matchDto.setId(o.getId());
-                    matchDto.setMatchName(o.getMatchName());
-                    matchDto.setMatchDate(o.getMatchDate());
-                    matchDto.setTeam1(o.getPlayers().subList(0,o.getPlayers().size()/2));
-                    matchDto.setTeam2(o.getPlayers().subList(o.getPlayers().size()/2,o.getPlayers().size()));
-                    matchDtos.add(matchDto);
+
+                    matchDtos.add(new MatchDto(o.getId(),o.getMatchName(),o.getMatchDate(),
+                            o.getPlayers().subList(0,o.getPlayers().size()/2),o.getPlayers().subList(o.getPlayers().size()/2,o.getPlayers().size())));
                 });
 
 

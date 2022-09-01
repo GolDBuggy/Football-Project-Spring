@@ -62,13 +62,13 @@ public class MatchController {
     }
 
 
-    /*
+/*
       @GetMapping("/getir")
     public String getAll(@RequestParam("matchId") long id, Model model){
         model.addAttribute("matches",service.matchPlayer(id));
         return "matches";
     }
-     */
+*/
 
 
 
